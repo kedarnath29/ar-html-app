@@ -1,5 +1,6 @@
 function goToConditions() {
-  localStorage.setItem("scenario", document.getElementById("scenario").value);
+  const scenario = document.getElementById("scenario")?.value;
+  localStorage.setItem("scenario", scenario);
   window.location.href = "conditions.html";
 }
 
@@ -25,10 +26,19 @@ function evaluate() {
   window.location.href = "result.html";
 }
 
-window.onload = function () {
-  if (document.getElementById("noteType")) {
-    document.getElementById("noteType").value = localStorage.getItem("noteType");
-    document.getElementById("noteSubject").value = localStorage.getItem("noteSubject");
-    document.getElementById("comment").value = localStorage.getItem("comment");
+/* ✅ CRITICAL: Attach click handler AFTER page loads */
+document.addEventListener("DOMContentLoaded", function () {
+  const btn = document.getElementById("generateBtn");
+  if (btn) {
+    btn.addEventListener("click", evaluate);
   }
-};
+
+  if (document.getElementById("noteType")) {
+    document.getElementById("noteType").value =
+      localStorage.getItem("noteType") || "";
+    document.getElementById("noteSubject").value =
+      localStorage.getItem("noteSubject") || "";
+    document.getElementById("comment").value =
+      localStorage.getItem("comment") || "";
+  }
+});
